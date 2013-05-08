@@ -1,0 +1,4 @@
+{% extends 'emailit/base_email.body.txt' %}
+{% block content %}
+{{ message }}
+{% endblock %}

@@ -1,0 +1,3 @@
+Title
+{% block content %}{{ message }}{% endblock %}
+Thank you.
