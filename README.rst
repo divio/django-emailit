@@ -8,18 +8,19 @@ Deadsimple html email sending.
 
 add ``emailit`` for the bundled templates and ``absolute`` for easy full absolute urls to ``INSTALLED_APPS``.
 
-```python
-import emailit.api
-context = {
-        'my_obj': 'whatever',
-}
-emailit.api.send_mail(['email@domain.com'], context, 'mymails/example_email')
-```
+usage::
 
-now add these templates:
-``mymails/example_email.body.html``
-``mymails/example_email.body.txt``
-``mymails/example_email.subject.txt``
+  import emailit.api
+  context = {
+      'my_obj': 'whatever',
+  }
+  emailit.api.send_mail(['email@domain.com'], context, 'mymails/example_email')
+
+now add these templates::
+
+  mymails/example_email.body.html
+  mymails/example_email.body.txt
+  mymails/example_email.subject.txt
 
 the convention is, that the body templates should extend ``emailit/base_email.body.html`` /
 ``emailit/base_email.body.txt`` and overrid the ``content`` block. This makes it easy to provide a site-wide look
@@ -31,3 +32,6 @@ it will be a pure html email.
 HTML emails are passed through ``premailer``.
 
 ``language`` can be passed into the ``send_mail`` function to override the active language while rendering the mail.
+
+The body templates will contain the rendered ``subject`` variable. ``subject`` can also be passed directly into
+``send_mail``.
