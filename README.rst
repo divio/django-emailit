@@ -33,5 +33,5 @@ HTML emails are passed through ``premailer``.
 
 ``language`` can be passed into the ``send_mail`` function to override the active language while rendering the mail.
 
-The body templates will contain the rendered ``subject`` variable. ``subject`` can also be passed directly into
+The body templates will contain the rendered ``subject`` variable in their context. ``subject`` can also be passed directly into
 ``send_mail``.
