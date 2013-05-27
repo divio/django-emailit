@@ -42,7 +42,10 @@ def construct_mail(recipients=None, context=None, template_base='emailit/email',
         else:
             context = Context({})
 
-        context['site'] = site or Site.objects.get_current()
+        site = site or Site.objects.get_current()
+        context['site'] = site
+        protocol = 'http'  # TODO: this should come from settings
+        base_url = "%s://%s" % (protocol, site.domain)
         if message:
             context['message'] = message
 
@@ -51,7 +54,7 @@ def construct_mail(recipients=None, context=None, template_base='emailit/email',
         context['subject'] = subject
         try:
             html = render_to_string([html_template, 'emailit/empty.txt'], context)
-            html = premailer.transform(html)
+            html = premailer.transform(html, base_url=base_url)
         except TemplateDoesNotExist, e:
             html = ''
         try:
