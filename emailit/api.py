@@ -6,11 +6,11 @@ from django.core.mail import EmailMultiAlternatives, mail_admins, mail_managers
 from django.template import Context, TemplateDoesNotExist
 from django.template.loader import render_to_string
 from django.utils import translation
-from emailit.utils import force_language
+from .utils import force_language, get_template_names
 
 
 def construct_mail(recipients=None, context=None, template_base='emailit/email', subject=None, message=None, site=None,
-                   subject_template=None, body_template=None, html_template=None, from_email=None, language=None,
+                   subject_templates=None, body_templates=None, html_templates=None, from_email=None, language=None,
                    **kwargs):
     """
     usage:
@@ -33,9 +33,9 @@ def construct_mail(recipients=None, context=None, template_base='emailit/email',
     with force_language(language):
         recipients = recipients or []
         from_email = from_email or settings.DEFAULT_FROM_EMAIL
-        subject_template = subject_template or '%s.subject.txt' % template_base
-        body_template = body_template or '%s.body.txt' % template_base
-        html_template = html_template or '%s.body.html' % template_base
+        subject_templates = subject_templates or get_template_names(language, template_base, 'subject', 'txt')
+        body_templates = body_templates or get_template_names(language, template_base, 'body', 'txt')
+        html_templates = html_templates or get_template_names(language, template_base, 'body', 'html')
 
         if context:
             context = Context(context)
@@ -49,16 +49,16 @@ def construct_mail(recipients=None, context=None, template_base='emailit/email',
         if message:
             context['message'] = message
 
-        subject = subject or render_to_string(subject_template, context)
+        subject = subject or render_to_string(subject_templates, context)
         subject = subject.replace('\n', '').replace('\r', '').strip()
         context['subject'] = subject
         try:
-            html = render_to_string([html_template, 'emailit/empty.txt'], context)
+            html = render_to_string(html_templates + ['emailit/empty.txt'], context)
             html = premailer.transform(html, base_url=base_url)
         except TemplateDoesNotExist, e:
             html = ''
         try:
-            body = render_to_string([body_template, 'emailit/empty.txt'], context)
+            body = render_to_string(body_templates + ['emailit/empty.txt'], context)
         except TemplateDoesNotExist, e:
             body = ''
 
