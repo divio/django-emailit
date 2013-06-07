@@ -44,6 +44,7 @@ def construct_mail(recipients=None, context=None, template_base='emailit/email',
 
         site = site or Site.objects.get_current()
         context['site'] = site
+        context['site_name'] = site.name
         protocol = 'http'  # TODO: this should come from settings
         base_url = "%s://%s" % (protocol, site.domain)
         if message:
