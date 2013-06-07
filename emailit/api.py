@@ -67,8 +67,8 @@ def construct_mail(recipients=None, context=None, template_base='emailit/email',
 
         if not (body or html):
             # this is so a meaningful exception can be raised
-            render_to_string([html_template], context)
-            render_to_string([body_template], context)
+            render_to_string([html_templates], context)
+            render_to_string([body_templates], context)
 
         if html:
             mail.attach_alternative(html, 'text/html')
