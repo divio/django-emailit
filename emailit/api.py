@@ -60,7 +60,7 @@ def construct_mail(recipients=None, context=None, template_base='emailit/email',
         else:
             html = premailer.transform(html, base_url=base_url)
         try:
-            body = render_to_string(body_templates + ['emailit/empty.txt'], context)
+            body = render_to_string(body_templates, context)
         except TemplateDoesNotExist, e:
             body = ''
 
