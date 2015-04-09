@@ -55,13 +55,13 @@ def construct_mail(recipients=None, context=None, template_base='emailit/email',
         context['subject'] = subject
         try:
             html = render_to_string(html_templates, context)
-        except TemplateDoesNotExist, e:
+        except TemplateDoesNotExist as e:
             html = ''
         else:
             html = premailer.transform(html, base_url=base_url)
         try:
             body = render_to_string(body_templates, context)
-        except TemplateDoesNotExist, e:
+        except TemplateDoesNotExist as e:
             body = ''
 
         mail = EmailMultiAlternatives(subject, body, from_email, recipients, **kwargs)
