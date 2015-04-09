@@ -15,7 +15,7 @@ def construct_mail(recipients=None, context=None, template_base='emailit/email',
     """
     usage:
     construct_mail(['my@email.com'], {'my_obj': obj}, template_base='myapp/emails/my_obj_notification').send()
-    :param recipients: list of recipients
+    :param recipients: recipient or list of recipients
     :param context: context for template rendering
     :param template_base: the base template. '.subject.txt', '.body.txt' and '.body.html' will be added
     :param subject: optional subject instead of rendering it through a template
@@ -32,6 +32,8 @@ def construct_mail(recipients=None, context=None, template_base='emailit/email',
     language = language or translation.get_language()
     with force_language(language):
         recipients = recipients or []
+        if not isinstance(recipients, list):
+            recipients = [recipients]
         from_email = from_email or settings.DEFAULT_FROM_EMAIL
         subject_templates = subject_templates or get_template_names(language, template_base, 'subject', 'txt')
         body_templates = body_templates or get_template_names(language, template_base, 'body', 'txt')
