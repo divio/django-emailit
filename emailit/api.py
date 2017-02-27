@@ -3,7 +3,7 @@ import premailer
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.core.mail import EmailMultiAlternatives, mail_admins, mail_managers
-from django.template import Context, TemplateDoesNotExist
+from django.template import TemplateDoesNotExist
 from django.template.loader import render_to_string
 from django.utils import translation
 from .utils import force_language, get_template_names
@@ -45,10 +45,8 @@ def construct_mail(recipients=None, context=None, template_base='emailit/email',
         body_templates = body_templates or get_template_names(language, template_base, 'body', 'txt')
         html_templates = html_templates or get_template_names(language, template_base, 'body', 'html')
 
-        if context:
-            context = Context(context)
-        else:
-            context = Context({})
+        if not context:
+            context = {}
 
         site = site or Site.objects.get_current()
         context['site'] = site
