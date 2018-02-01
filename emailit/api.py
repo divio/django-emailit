@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 import premailer
+
 from django.conf import settings
 from django.contrib.sites.models import Site
-from django.core.mail import EmailMultiAlternatives, mail_admins, mail_managers
+from django.core.mail import EmailMultiAlternatives
 from django.template import TemplateDoesNotExist
 from django.template.loader import render_to_string
 from django.utils import translation
+
 from .utils import force_language, get_template_names
 
 try:
@@ -61,13 +63,13 @@ def construct_mail(recipients=None, context=None, template_base='emailit/email',
         context['subject'] = subject
         try:
             html = render_to_string(html_templates, context)
-        except TemplateDoesNotExist as e:
+        except TemplateDoesNotExist:
             html = ''
         else:
             html = premailer.transform(html, base_url=base_url)
         try:
             body = render_to_string(body_templates, context)
-        except TemplateDoesNotExist as e:
+        except TemplateDoesNotExist:
             body = ''
 
         mail = EmailMultiAlternatives(subject, body, from_email, recipients, **kwargs)
