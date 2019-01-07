@@ -29,9 +29,9 @@ def construct_mail(recipients=None, context=None, template_base='emailit/email',
     :param subject: optional subject instead of rendering it through a template
     :param message: optional message (will be inserted into the base email template)
     :param site: the site this is on. uses current site by default
-    :param subject_template: override the subject template
-    :param body_template: override the body template
-    :param html_template: override the html body template
+    :param subject_templates: override the subject template
+    :param body_templates: override the body template
+    :param html_templates: override the html body template
     :param from_email: defaults to settings.DEFAULT_FROM_EMAIL
     :param language: the language that should be active for this email. defaults to currently active lang
     :param kwargs: kwargs to pass into the Email class
