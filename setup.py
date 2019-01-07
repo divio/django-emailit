@@ -15,7 +15,7 @@ setup(
     author_email='stefan@foulis.ch',
     packages=find_packages(),
     install_requires=(
-        'Django>=1.6,<2.0',  # TODO: 2.0 may work here but it's not tested.
+        'Django>=1.11,<2.2',
         'premailer>=1.12',
         'django-absolute',
     ),
